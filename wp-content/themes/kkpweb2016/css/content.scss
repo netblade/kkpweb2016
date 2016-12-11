@@ -1,0 +1,18 @@
+﻿#main {
+    .content_banner {
+	    &.content_banner_right {
+		    float: right;
+		    margin: 5px 0 10px 10px;
+	    }
+	    &.content_banner_left {
+		    float: left;
+		    margin: 5px 10px 10px 0; 
+	    }
+	    padding: 10px;
+	    background: #31736f;
+	    color: #FFFFFF;
+	    font-weight: bold;
+	    font-size: 22px;
+
+    }
+}
