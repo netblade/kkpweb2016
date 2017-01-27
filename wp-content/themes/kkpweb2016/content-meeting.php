@@ -36,8 +36,10 @@ kkpweb2016_set_last_edit_post($post);
                 $event_place_str = $other_place;
             } else {
                 $value = get_field("place");
-                $label = $value['label'];
-                $event_place_str = $label;
+                if (is_array($value) && array_key_exists('label', $value)) {
+                    $label = $value['label'];
+                    $event_place_str = $label;
+                }
             }
             echo $event_place_str;
             ?>

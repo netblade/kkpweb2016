@@ -312,10 +312,11 @@ global $kkpweb2016_template_options;
                                 if ($other_place != "") {
                                     echo $other_place;
                                 } else {
-                                    $field = get_field_object('place', $p->ID);
                                     $value = get_field("place", $p->ID);
-                                    $label = $field['choices'][ $value ];
-                                    echo $label;
+                                    if (is_array($value) && array_key_exists('label', $value)) {
+                                        $label = $value['label'];
+                                        echo $label;
+                                    }
                                 }
                                 ?>
                             </div>
