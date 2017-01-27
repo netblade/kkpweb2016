@@ -1,5 +1,25 @@
 <?php
 global $kkpweb2016_template_options;
+
+global $navigation_root_post;
+
+$navigation_root_post = $post;
+
+switch ($post->post_type) {
+    case "event":
+    case "meeting":
+        $navigation_root_post = get_post($kkpweb2016_template_options['kkpweb2016_settings_frontpage_boxes_events']);
+        break;
+    case "news":
+        $navigation_root_post = get_post($kkpweb2016_template_options['kkpweb2016_settings_frontpage_boxes_news']);
+        break;
+    case "person":
+    case "person_other":
+        $navigation_root_post = get_post($kkpweb2016_template_options['kkpweb2016_settings_misc_contacts_parent_page']);
+        break;
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -52,51 +72,24 @@ global $kkpweb2016_template_options;
 
     <div id="fb-root"></div>
     <script>
-		window.fbAsyncInit = function () {
-			FB.init({
-				appId: '1535628683347700',
-				xfbml: true,
-				version: 'v2.2'
-			});
-		};
-
-		(function (d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) { return; }
-			js = d.createElement(s); js.id = id;
-			js.src = "http://connect.facebook.net/fi_FI/sdk.js";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-    </script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
     <div id="wrapper" class="container">
         <div class="header">
             <div id="header_top" class="row">
-                <div class="col-lg-8">
-                    <div class="">
-                        <a href="/">
-                            <img src="/wp-content/themes/kkpweb2016/img/header_logo.png" />
-                        </a>
-                    </div>
+                
+                <div class="col-lg-8 col-md-4 col-sm-4" id="header_logo_container">
+                    <a href="/">
+                        <img src="/wp-content/themes/kkpweb2016/img/header_logo.png" />
+                    </a>
                 </div>
-                <div class="col-lg-2">
-                    <form method="post" action="search.php">
-                        <div class="input-group" id="search_container">
-                            <input placeholder="HAE" name="search" type="text" class="form-control" />
-                            <span class="input-group-addon" id="searchSubmitContainer">
-                                <button type="submit" class="btn btn-default" id="searchSubmit">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                    <div id="fbLink">
-                        <a href="http://www.facebook.com/kilonkipinat">
-                            <img src="/wp-content/themes/kkpweb2016/img/facebook.png" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-2 text-right" id="header_links">
+                <div class="col-lg-2 col-md-2 col-sm-4 text-right" style="float:right; display:inline-block;" id="header_links">
 
                     
                     <?php
@@ -110,15 +103,40 @@ global $kkpweb2016_template_options;
 
                             if ($link_page != null) {
                     ?>
-                                        <a href="<?php echo $link_page->guid; ?>"><?php echo $link_title; ?></a>
+                                        <a href="<?php echo get_permalink($link_page->ID); ?>"><?php echo $link_title; ?></a>
                     <?php
                             }
                         }
 
                     }
 
-?>
+                    ?>
                 </div>
+                <div class="col-lg-2 col-md-4 col-sm-4">
+                    <form method="post" action="search.php">
+                        <div class="input-group" id="search_container">
+                            <input placeholder="HAE" name="search" type="text" class="form-control" />
+                            <span class="input-group-addon" id="searchSubmitContainer">
+                                <button type="submit" class="btn btn-default" id="searchSubmit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                    <div id="socialLinks">
+                        <div id="fbLink">
+                            <a href="http://www.facebook.com/kilonkipinat" target="_blank">
+                                <img src="/wp-content/themes/kkpweb2016/img/facebook.png" height="22" width="22" />
+                            </a>
+                        </div>
+                        <div id="instagramLink">
+                            <a href="https://www.instagram.com/kilonkipinat/" target="_blank">
+                                <img src="/wp-content/themes/kkpweb2016/img/Instagram2016_col-128px.png" height="22" width="22" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
             <!-- Static navbar -->
             <nav id="header_top_navi" class="navbar navbar-default">
@@ -133,7 +151,7 @@ global $kkpweb2016_template_options;
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <?php
-                        echo kkpweb2016_main_navi($post);
+                        echo kkpweb2016_main_navi($navigation_root_post);
                         ?>
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->

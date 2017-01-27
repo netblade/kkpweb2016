@@ -5,6 +5,8 @@ $footer_last_edit_post = null;
 $active_post_tree = array();
 
 $kkpweb2016_template_options = get_option( 'kkpweb2016_settings_template' );
+global $post;
+$navigation_root_post = null;
 
 function kkpweb2016_set_last_edit_post($last_edited_post) {
     global $footer_last_edit_post;
@@ -24,8 +26,37 @@ function kkpweb2016_get_last_edit_string() {
 
         $to_ret = "Viimeksi muokattu " . date_format($date, 'd.m.Y H:i:s');
         $user = get_userdata($footer_last_edit_post->post_author);
+
+
         if ($user != null) {
-            $to_ret .= " (".$user->display_name.")";
+
+            $hide_user = get_field('hide_from_update_footer', 'user_'.$user->ID);
+            if (!$hide_user) {
+                $posts = get_posts(array(
+                    'posts_per_page'	=> 1,
+                    'post_type'			=> array('person', 'person_other'),
+                    'meta_query' 		=> array(
+                        array(
+                            'key'			=> 'user',
+                            'compare'		=> '=',
+                            'value'         => $user->ID
+                        )
+                    )
+                ));
+                $person_post_id = 0;
+                if( $posts ) {
+                    foreach( $posts as $p ) {
+                        $person_post_id = $p->ID;
+                        break;
+                    }
+                }
+                if ($person_post_id > 0) {
+                    $to_ret .= ' (<a href="'.get_permalink($person_post_id).'">'.$user->display_name."</a>)";
+                }
+                else {
+                    $to_ret .= " (".$user->display_name.")";
+                }
+            }
         }
 
     }
@@ -80,6 +111,21 @@ function kkpweb2016_content_banner( $atts ) {
 }
 add_shortcode( 'content_banner', 'kkpweb2016_content_banner' );
 
+
+
+function kkpweb2016_get_template_part($post) {
+    // Include the page content template.
+    if (in_array($post->post_type, array('person', 'person_other'))) {
+        get_template_part( 'content', 'persons');
+    } elseif ($post->post_type == "event") {
+        get_template_part( 'content', 'event');
+    } elseif ($post->post_type == "meeting") {
+        get_template_part( 'content', 'meeting');
+    } else {
+        get_template_part( 'content', 'page');
+    }
+}
+
 if (!class_exists("KKPWeb2016SettingsPage")) {
     require_once( get_template_directory() . '/functions_settings.php');
 }
@@ -95,7 +141,6 @@ if (!function_exists("kkpweb2016_AddCustomTaxonomies")) {
 if (!function_exists("kkpweb2016_main_navi")) {
 	require_once( get_template_directory() . '/functions_navigation.php');
 }
-
 
 
 ?>

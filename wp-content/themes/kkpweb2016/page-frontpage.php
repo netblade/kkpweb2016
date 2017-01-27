@@ -16,7 +16,7 @@ global $kkpweb2016_template_options;
 		while ( have_posts() ) {
             the_post();
 			// Include the page content template.
-			get_template_part( 'content', 'page' );
+			kkpweb2016_get_template_part($post);
         }
                 ?>
             </div>
@@ -97,21 +97,23 @@ global $kkpweb2016_template_options;
                 <div class="box">
                     <div class="box-header">
                         <?php
-                        $link_page = get_post($kkpweb2016_template_options['kkpweb2016_settings_frontpage_boxes_events']);
+
+                        $link_page = get_permalink($kkpweb2016_template_options['kkpweb2016_settings_frontpage_boxes_events']);
+                        
                         ?>
-                        <a href="<?php echo $link_page->guid; ?>" class="box-header-title-link">Tapahtumat</a>
+                        <a href="<?php echo $link_page; ?>" class="box-header-title-link">Tapahtumat</a>
                     </div>
                     <div class="box-content">
                         <?php
                         // find date time now
-                        $date_now = date('Y-m-d H:i:s');
+                        $date_now = date('Y-m-d') . ' 00:00:00';
                         // query events
                         $posts = get_posts(array(
                             'posts_per_page'	=> 5,
                             'post_type'			=> 'event',
                             'meta_query' 		=> array(
                                 array(
-                                    'key'			=> 'event_start',
+                                    'key'			=> 'event_end',
                                     'compare'		=> '>',
                                     'value'         => $date_now,
                                     'type'			=> 'DATETIME'
@@ -128,16 +130,16 @@ global $kkpweb2016_template_options;
 
                         <div class="row event_header">
                             <div class="col-lg-6">
-                                <a href="<?php echo $p->guid; ?>">
+                                <a href="<?php echo get_permalink($p->ID); ?>">
                                     <?php echo $p->post_title; ?>
                                 </a>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 text-nowrap">
                                 <?php
                                 $event_time_str = "";
                                 $event_starts = new DateTime(get_field('event_start', $p->ID));
                                 $event_ends = new DateTime(get_field('event_end', $p->ID));
-                                if ($event_starts->format("ZY") == $event_ends->format("ZY")) {
+                                if ($event_starts->format("zY") == $event_ends->format("zY")) {
                                     if (date("Y") == $event_starts->format("Y")) {
                                         $event_time_str = $event_starts->format("d.m. H:i");
                                     } else {
@@ -178,16 +180,70 @@ global $kkpweb2016_template_options;
                             <div class="event_dialog">
                                 <div class="box">
                                     <div class="box-header">
-                                        <a href="#" class="box-header-title-link"><?php echo $p->post_title; ?></a>
-                                        <span class="box-header-title-right pull-right"><?php echo $event_time_str;?>.</span>
+                                        <a href="<?php echo get_permalink($p->ID); ?>" class="box-header-title-link">
+                                            <?php echo $p->post_title; ?>
+                                        </a>
                                     </div>
                                     <div class="box-content">
+                                        <span class="box-header-title-right pull-right">
+                                            <?php echo $event_time_str;?>
+                                        </span>
                                         <div class="event_dialog_content">
                                             <?php echo $p->post_content; ?>
                                         </div>
                                         <dl>
+                                            <?php
+                                                $additional_details = "";
+
+                                                $email = "";
+                                                $email_str = "";
+
+                                                $person = get_field('info_person_kipinat', $p->ID);
+
+                                                if (trim($person) == "")
+                                                {
+                                                    $person = get_field('info_person_other', $p->ID);
+                                                }
+                                                if (trim($person) != "")
+                                                {
+                                                    $person_post = get_post($person);
+                                                    if ($person_post != null) {
+                                                        $additional_details = $person_post->post_title;
+                                                        $phone = get_field('mobile', $person);
+                                                        if ($phone != null && trim($phone) != "") {
+                                                            $phone_trim = str_replace(" ", "", str_replace("-", "", trim($phone)));
+                                                            if ($phone_trim != "") {
+                                                                $phone_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_phone\" href=\"tel:'.$phone_trim.'\" rel=\"nofollow\">'.$phone.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
+                                                                $additional_details .= " p. ". $phone_str;
+                                                            }
+                                                        }
+                                                        $user = get_field('user', $person);
+                                                        if ($user != null) {
+                                                            $userdata = get_userdata( $user['ID'] );
+                                                            $email = $userdata->user_email;
+                                                        }
+                                                    }
+                                                }
+
+                                                if (trim($email) != "") {
+                                                    $email_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_email\" href=\"mailto:'.$email.'\" rel=\"nofollow\">'.$email.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
+                                                    $additional_details .= ' @: ' . $email_str;
+                                                }
+
+                                                if (trim($additional_details) == "") {
+                                                    $additional_details = get_field('info_manual_text', $p->ID);
+                                                }
+
+                                                if (trim($additional_details) != "") {
+                                            ?>
                                             <dt>Lisätiedot</dt>
-                                            <dd>dddMia Muhonen p. 040400423423</dd>
+                                            <dd>
+                                                <?php echo $additional_details; ?>
+                                            </dd>
+                                            <?php
+                                                }
+
+                                            ?>
                                             <dt>Paikka</dt>
                                             <dd><?php echo $event_place_str;?></dd>
                                         </dl>
@@ -201,14 +257,84 @@ global $kkpweb2016_template_options;
                         ?>
                     </div>
                 </div>
+                <br />
+                <div class="box">
+                    <div class="box-header">
+                        <?php
+                        $link_page = get_permalink($kkpweb2016_template_options['kkpweb2016_settings_frontpage_boxes_meetings']);
+                        ?>
+                        <a href="<?php echo $link_page; ?>" class="box-header-title-link">Kokoukset</a>
+                    </div>
+                    <div class="box-content">
+                        <?php
+                        // find date time now
+                        $date_now = date('Y-m-d') . ' 00:00:00';
+                        // query events
+                        $posts = get_posts(array(
+	                        'posts_per_page'	=> 5,
+	                        'post_type'			=> 'meeting',
+	                        'meta_query' 		=> array(
+		                        array(
+	                                'key'			=> 'meeting_starts',
+	                                'compare'		=> '>',
+                                    'value'         => $date_now,
+	                                'type'			=> 'DATETIME'
+	                            )
+                            ),
+	                        'order'				=> 'ASC',
+	                        'orderby'			=> 'meta_value',
+	                        'meta_key'			=> 'meeting_starts',
+	                        'meta_type'			=> 'DATETIME'
+                        ));
+                        if( $posts ) {
+                            foreach( $posts as $p ) {
+                        ?>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a href="<?php echo get_permalink($p->ID); ?>">
+                                    <?php echo $p->post_title; ?>
+                                </a>
+                            </div>
+                            <div class="col-lg-3">
+                                <?php
+                                $meeting_starts = new DateTime(get_field('meeting_starts', $p->ID));
+                                if (date("Y") == $meeting_starts->format("Y")) {
+                                    echo $meeting_starts->format("d.m. H:i");
+                                } else {
+                                    echo $meeting_starts->format("d.m.Y H:i");
+                                }
+                                ?>
+                            </div>
+                            <div class="col-lg-3 text-right">
+                                <?php
+                                $other_place = get_field('place_other', $p->ID);
+                                if ($other_place != "") {
+                                    echo $other_place;
+                                } else {
+                                    $field = get_field_object('place', $p->ID);
+                                    $value = get_field("place", $p->ID);
+                                    $label = $field['choices'][ $value ];
+                                    echo $label;
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <?php
+                            }
+                        }
+                        ?>
+
+                    </div>
+                </div>
             </div>
             <div class="col-lg-6">
                 <div class="box">
                     <div class="box-header">
                         <?php
-                        $link_page = get_post($kkpweb2016_template_options['kkpweb2016_settings_frontpage_boxes_news']);
+                        $link_page = get_permalink($kkpweb2016_template_options['kkpweb2016_settings_frontpage_boxes_news']);
                         ?>
-                        <a href="<?php echo $link_page->guid; ?>" class="box-header-title-link">Ajankohtaista</a>
+                        <a href="<?php echo $link_page; ?>" class="box-header-title-link">Ajankohtaista</a>
                     </div>
                     <div class="box-content">
 
@@ -226,7 +352,7 @@ global $kkpweb2016_template_options;
 
                         <div class="row event_header">
                             <div class="col-lg-8">
-                                <a href="<?php echo $p->guid; ?>">
+                                <a href="<?php echo get_permalink($p->ID); ?>">
                                     <?php echo $p->post_title; ?>
                                 </a>
                             </div>
@@ -234,7 +360,7 @@ global $kkpweb2016_template_options;
                                     $published = new DateTime($p->post_date);
 
                                     echo $published->format("d.m.Y H:i")
-?></div>
+                            ?></div>
                         </div>
 
 
@@ -244,7 +370,7 @@ global $kkpweb2016_template_options;
 
                         }
 
-                        ?>
+                                ?>
                     </div>
                 </div>
             </div>
@@ -252,80 +378,17 @@ global $kkpweb2016_template_options;
         <br />
         <div class="row">
             <div class="col-lg-6">
-                <div class="box">
-                    <div class="box-header">
-                        <?php
-                        $link_page = get_post($kkpweb2016_template_options['kkpweb2016_settings_frontpage_boxes_meetings']);
-                        ?>
-                        <a href="<?php echo $link_page->guid; ?>" class="box-header-title-link">Kokoukset</a>
-                    </div>
-                    <div class="box-content">
-                        <?php
-                        // find date time now
-                            $date_now = date('Y-m-d H:i:s');
-                            // query events
-                            $posts = get_posts(array(
-	                            'posts_per_page'	=> 5,
-	                            'post_type'			=> 'meeting',
-	                            'meta_query' 		=> array(
-		                            array(
-	                                    'key'			=> 'meeting_starts',
-	                                    'compare'		=> '>',
-                                        'value'         => $date_now,
-	                                    'type'			=> 'DATETIME'
-	                                )
-                                ),
-	                            'order'				=> 'ASC',
-	                            'orderby'			=> 'meta_value',
-	                            'meta_key'			=> 'meeting_starts',
-	                            'meta_type'			=> 'DATETIME'
-                            ));
-                            if( $posts ) {
-                                foreach( $posts as $p ) {
-                        ?>
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <a href="<?php echo $p->guid; ?>">
-                                    <?php echo $p->post_title; ?>
-                                </a>
-                            </div>
-                            <div class="col-lg-3">
-                                <?php
-                                    $meeting_starts = new DateTime(get_field('meeting_starts', $p->ID));
-                                    if (date("Y") == $meeting_starts->format("Y")) {
-                                        echo $meeting_starts->format("d.m. H:i");
-                                    } else {
-                                        echo $meeting_starts->format("d.m.Y H:i");
-                                    }
-                                ?>
-                            </div>
-                            <div class="col-lg-3 text-right">
-                                <?php
-                                    $other_place = get_field('meeting_place_other', $p->ID);
-                                    if ($other_place != "") {
-                                        echo $other_place;
-                                    } else {
-                                        $field = get_field_object('meeting_place', $p->ID);
-                                        $value = get_field("meeting_place", $p->ID);
-                                        $label = $field['choices'][ $value ];
-                                        echo $label;
-                                    }
-                                ?>
-                            </div>
-                        </div>
-                        <?php
-                                }
-                            }
-                        ?>
-
-                    </div>
-                </div>
+                <?php echo do_shortcode('[instagram-feed id="3055900978" showheader="false"]'); ?>
             </div>
             <div class="col-lg-6">
-                <div class="fb-like-box" data-href="https://www.facebook.com/kilonkipinat" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="true" data-show-border="true"></div>
+                <div class="fb-page" data-href="https://www.facebook.com/kilonkipinat" data-tabs="timeline" data-width="540" data-height="740" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                    <blockquote cite="https://www.facebook.com/kilonkipinat" class="fb-xfbml-parse-ignore">
+                        <a href="https://www.facebook.com/kilonkipinat">Kilon Kipinät</a>
+                    </blockquote>
+                </div>
             </div>
         </div>
+        <br />
     </main>
 </div>
 <?php

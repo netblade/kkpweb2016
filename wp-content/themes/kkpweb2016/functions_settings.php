@@ -122,6 +122,21 @@ class KKPWeb2016SettingsPage
             array('field_name' => 'kkpweb2016_settings_frontpage_boxes_news')
         );
 
+        add_settings_section(
+            'kkpweb2016_settings_misc', // ID
+            'Muuta', // Title
+            null, // Callback
+            'kkpweb2016_settings_admin' // Page
+        );
+        add_settings_field(
+            'kkpweb2016_settings_misc_contacts_parent_page', // ID
+            'Henkil&ouml;iden yl&auml;sivu', // Title
+            array( $this, 'pagelink_callback' ), // Callback
+            'kkpweb2016_settings_admin', // Page
+            'kkpweb2016_settings_misc', // Section
+            array('field_name' => 'kkpweb2016_settings_misc_contacts_parent_page')
+        );
+
 
     }
 

@@ -1,23 +1,23 @@
 ﻿
-    h1, h2, h3, h4, h5, h6 {
-	color: #31736f;
-    }
+h1, h2, h3, h4, h5, h6 {
+color: #31736f;
+}
 
+a {
+	color: #000000;
+	font-weight: bold;
+	text-decoration: none;
+	&:hover {
+		color: #31736f;
+		text-decoration: underline;
+	}
+}
+
+#main {
     a {
-	    color: #000000;
-	    font-weight: bold;
-	    text-decoration: none;
-	    &:hover {
-		    color: #31736f;
-		    text-decoration: underline;
-	    }
+        text-decoration: underline;
     }
-
-    #main {
-        a {
-            text-decoration: underline;
-        }
-    }
+}
 
 #wrapper {
     margin-top: 20px;
@@ -30,6 +30,11 @@
 
 
     #header_top {
+
+        #header_logo_container {
+            margin-bottom: 5px;
+        }
+
 		padding: 20px;
 		#header_links {
 			a {
@@ -49,9 +54,13 @@
 			border: none;
 			background: transparent;
 		}
-		#fbLink {
+		#socialLinks {
 			padding-top: 5px;
 			float: right;
+            div {
+                display: inline-block;
+                margin-bottom: 5px;
+            }
 		}
 	}
 
@@ -114,5 +123,34 @@
     #footer {
 	    padding: 4px 20px;
 	    background: #f0f4f4;
+        a {
+            font-weight: normal;
+        }
+    }
+
+    .more_info_email {
+        font-weight: normal;
+    }
+
+    .more_info_phone {
+        font-weight: normal;
+    }
+
+    .event_row {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width:1199px){
+    #wrapper {
+        #header_top {
+		    #socialLinks {
+			    float: left;
+                div {
+                    display: inline-block;
+                    margin-bottom: 5px;
+                }
+		    }
+	    }
     }
 }

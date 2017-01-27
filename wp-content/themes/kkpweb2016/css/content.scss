@@ -15,4 +15,27 @@
 	    font-size: 22px;
 
     }
+
+    #members_wrapper {
+        .members_member {
+            .members_image {
+                height: 150px;
+            }
+        }
+    }
+
+    .person_image {
+        float: right;
+        margin: 0 0 5px 5px;
+    }
+
+    .person_contact_info {
+        display: block;
+        margin: 5px 0;
+    }
+
+    .edit-link {
+        margin: 10px 0;
+        display: inline-block;
+    }
 }

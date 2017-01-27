@@ -15,7 +15,8 @@ function kkpweb2016_AddCustomPostTypes() {
 				),
 			'public' => true,
 			'has_archive' => true,
-			'menu_icon' => 'dashicons-admin-site'
+			'menu_icon' => 'dashicons-admin-site',
+            'supports' => array('title', 'editor', 'thumbnail')
 		)
 	);
 
@@ -52,10 +53,10 @@ function kkpweb2016_AddCustomPostTypes() {
 			'public' => true,
 			'has_archive' => true,
 			'menu_icon' => 'dashicons-admin-users',
-            'supports' => array('title','thumbnail','page-attributes')
+            'supports' => array('title', 'editor', 'thumbnail','page-attributes')
 		)
 	);
-
+/*
     register_post_type( 'group',
 		array(
 			'labels' => array(
@@ -66,9 +67,9 @@ function kkpweb2016_AddCustomPostTypes() {
 			'has_archive' => true,
 			'menu_icon' => 'dashicons-groups',
             'hierarchical' => true,
-            'supports' => array('title','thumbnail','page-attributes')
+            'supports' => array('title', 'editor', 'thumbnail','page-attributes')
 		)
-	);
+	);*/
 
     register_post_type( 'carousel',
 		array(
@@ -93,7 +94,7 @@ function kkpweb2016_AddCustomPostTypes() {
 			'public' => true,
 			'has_archive' => true,
 			'menu_icon' => 'dashicons-admin-users',
-            'supports' => array('title','thumbnail','page-attributes')
+            'supports' => array('title', 'editor', 'thumbnail','page-attributes')
 		)
 	);
 
