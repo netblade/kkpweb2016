@@ -46,8 +46,16 @@ global $kkpweb2016_template_options;
                             foreach( $posts as $p ) {
 
                                 $image = get_field('image', $p->ID);
+                                $link = get_field('link', $p->ID);
+                                $link_str = "";
+                                $link_end_str = "";
+                                if ($link != "") {
+                                    $link_str='<a href="' . get_permalink($link) . '">';
+                                    $link_end_str = '</a>';
+                                }
+
                                 if (!is_null($image) && array_key_exists('url', $image) ) {
-                                    $image_content = '<img src="'.$image['url'].'" alt="" />' . "\n";
+                                    $image_content = $link_str.'<img src="'.$image['url'].'" alt="" />' . $link_end_str . "\n";
                                 } else {
                                     continue;
                                 }
@@ -64,7 +72,7 @@ global $kkpweb2016_template_options;
 
                                 $carousel_content .= $image_content;
                                 $carousel_content .= '<div class="carousel-caption">' . "\n";
-                                $carousel_content .= '<span class="carousel-caption-text">'.get_field('text', $p->ID).'</span>' . "\n";
+                                $carousel_content .= '<span class="carousel-caption-text">' .  get_field('text', $p->ID).'</span>' . "\n";
                                 $carousel_content .= '</div>' . "\n";
                                 $carousel_content .= '</div>' . "\n";
 
