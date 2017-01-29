@@ -2,14 +2,9 @@
 /*
 Template Name: Ryhm&auml;
  */
-
 global $kkpweb2016_template_options;
 global $navigation_root_post;
-
 get_header();
-
-
-
 ?>
 <div class="content" id="content">
 
@@ -28,15 +23,62 @@ get_header();
                     // Include the page content template.
                     kkpweb2016_get_template_part($post);
                 }
+                if (get_field('show_meeting_time')) {
+                    $meeting_repeat = get_field('meeting_repeat');
+                    $meeting_day = get_field('meeting_day');
+                    $meeting_time = get_field('meeting_time');
+                    $meeting_time_free = get_field('meeting_time_free');
+                    $meeting_place = get_field('meeting_place');
+                    $meeting_place_other = get_field('meeting_place_other');
                 ?>
                 <div class="row">
-                    <div class="col-lg-12" id="members_wrapper">
+                    <div class="col-lg-12">
+                        <h4>Kokousaika</h4>
                         <?php
+                    $show_time= false;
+                        switch ($meeting_repeat["value"]) {
+                            case "weekly":
+                            case "biweekly":
+                            case "monthly":
+                            case "when_needed":
+                                echo $meeting_repeat["label"];
+                                $show_time = true;
+                                break;
+                            case "no_repeat":
+                            default:
+                                echo $meeting_time_free;
+                                break;
+                        }
+                        if ($show_time && is_array($meeting_day) && array_key_exists('label', $meeting_day)) {
+                            echo ", " . $meeting_day['label'] . " " . $meeting_time;
+                        }
+                        ?>
+                        <?php
+                        if ((is_array($meeting_place) && array_key_exists('label', $meeting_place) && trim($meeting_place['label']) != "") || trim($meeting_place_other) != "")
+                        {
+                        ?>
+                        <h4>Kokouspaikka</h4>
+                        <?php
+                            if (trim($meeting_place_other) != "") {
+                                echo $meeting_place_other;
+                            } else {
+                                echo $meeting_place['label'];
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+                <?php
+                }
+                        ?>
+                <hr />
+                        <div class="row">
+                            <div class="col-lg-12" id="members_wrapper">
+                                <?php
                         $members = get_field('members');
-
                         $row_counter = -1;
-
                         if (is_array($members) && count($members) > 0) {
+                            echo "<h4>Henkil&ouml;t</h4>";
                             foreach($members as $row) {
                                 if (!is_array($row)) {
                                     continue;
@@ -59,8 +101,8 @@ get_header();
                                         }
                                         break;
                                     case "person":
-
                                         $person = $row['person'];
+                                        $other_name = trim($row['other_name']);
                                         if ($person != null && property_exists($person, "ID")) {
                                             if ($row_counter < 0) {
                                                 echo '<div class="row">';
@@ -71,39 +113,46 @@ get_header();
                                                 $row_counter = 0;
                                             }
                                             $row_counter++;
-
                                             $permalink = get_permalink($person->ID);
-
-
-
-
-                        ?>
-                                            <div class="col-lg-3 members_member">
-                                                <h3>
-                                                    <?php echo $row['title']; ?>
-                                                </h3>
-                                                <div class="members_image">
-                                                    <?php
+                                ?>
+                                <div class="col-lg-3 members_member">
+                                    <h3>
+                                        <?php echo $row['title']; ?>
+                                    </h3>
+                                    <div class="members_image">
+                                        <?php
                                             $person_image = get_field('image', $person->ID);
                                             if (is_array($person_image) && array_key_exists('sizes', $person_image)
                                                 && is_array($person_image['sizes']) && array_key_exists('thumbnail', $person_image['sizes'])
                                                 && array_key_exists('thumbnail-width', $person_image['sizes']) && is_numeric($person_image['sizes']['thumbnail-width']) && (int) $person_image['sizes']['thumbnail-width'] <= 150
                                                 && array_key_exists('thumbnail-height', $person_image['sizes']) && is_numeric($person_image['sizes']['thumbnail-height']) && (int) $person_image['sizes']['thumbnail-height'] <= 150)
                                             {
-                                                    ?>
-                                                    <a href="<?php echo $permalink; ?>">
-                                                        <img src="<?php echo $person_image['sizes']['thumbnail']; ?>" />
-                                                    </a>
-                                                    <?php
+                                        ?>
+                                        <a href="<?php echo $permalink; ?>">
+                                            <img src="<?php echo $person_image['sizes']['thumbnail']; ?>" />
+                                        </a>
+                                        <?php
                                             }
-                                                    ?>
-                                                </div>
-                                                <h4><a href="<?php echo $permalink; ?>"><?php echo $person->post_title; ?></a></h4>
-                                            </div>
-                                            <?php
+                                        ?>
+                                    </div>
+                                    <h4><a href="<?php echo $permalink; ?>"><?php echo $person->post_title; ?></a></h4>
+                                </div>
+                                <?php
+                                        } elseif ($other_name != "") {
+                                ?>
+                                <div class="col-lg-3 members_member">
+                                    <h3>
+                                        <?php echo $row['title']; ?>
+                                    </h3>
+                                    <div class="members_image"></div>
+                                    <h4>
+                                        <a href="<?php echo $permalink; ?>">
+                                            <?php echo $other_name ?>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <?php
                                         }
-
-
                                         break;
                                 }
                             }
@@ -111,11 +160,11 @@ get_header();
                                 echo '</div>';
                             }
                         }
-                        ?>
+                                ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </main>
 </div>
 
