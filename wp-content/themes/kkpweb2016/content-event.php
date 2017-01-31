@@ -17,34 +17,18 @@ kkpweb2016_set_last_edit_post($post);
     <div class="row">
         <div class="col-lg-6">
             <h4>Ajankohta</h4>
-            <?php
-
-            $event_time_str = "";
-            $event_starts = new DateTime(get_field('event_start'));
-            $event_ends = new DateTime(get_field('event_end'));
-            if ($event_starts->format("zY") == $event_ends->format("zY")) {
-                if (date("Y") == $event_starts->format("Y")) {
-                    $event_time_str = $event_starts->format("d.m. H:i");
-                } else {
-                    $event_time_str = $event_starts->format("d.m.Y H:i");
-                }
-            } else {
-                if ($event_starts->format("Y") == $event_ends->format("Y")) {
-                    if (date("mY") == $event_starts->format("mY")) {
-                        $event_time_str = $event_starts->format("d.") . " - " . $event_ends->format("d.m.");
-                    } else if (date("Y") == $event_starts->format("Y")) {
-                        $event_time_str = $event_starts->format("d.m.") . " - " . $event_ends->format("d.m.");
-                    } else {
-                        $event_time_str = $event_starts->format("d.m.") . " - " . $event_ends->format("d.m.Y");
-                    }
-                } else {
-                    $event_time_str = $event_starts->format("d.m.Y") . " - " . $event_ends->format("d.m.Y");
-
-                }
-            }
-            echo $event_time_str;
-
-            ?>
+            <table>
+                <tr>
+                    <th>Alkaa:&nbsp;&nbsp;</th>
+                    <td><?php echo kkpweb2016_get_datestring(get_field('event_start'), true); ?></td>
+                </tr>
+                <tr>
+                    <th>Loppuu:&nbsp;&nbsp;</th>
+                    <td>
+                        <?php echo kkpweb2016_get_datestring(get_field('event_end'), true); ?>
+                    </td>
+                </tr>
+            </table>
             <h4>Paikka</h4>
             <?php
             $event_place_str = "";

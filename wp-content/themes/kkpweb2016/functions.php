@@ -1,5 +1,8 @@
 <?php
 
+$default_timezone = new DateTimeZone(get_option('timezone_string'));
+
+
 $footer_last_edit_post = null;
 
 $active_post_tree = array();
@@ -12,6 +15,99 @@ function kkpweb2016_set_last_edit_post($last_edited_post) {
     global $footer_last_edit_post;
 
     $footer_last_edit_post = $last_edited_post;
+}
+
+function kkpweb2016_get_datestring($date_str, $forceShowYear = false) {
+    global $default_timezone;
+    $date = new DateTime($date_str, $default_timezone);
+
+    $event_time_str = '<time class="dtstart" datetime="'.$date->format("Y-m-d H:iO").'">';
+
+    if (date("Y") == $date->format("Y") && !$forceShowYear) {
+        $event_time_str .= $date->format("d.m. H:i");
+    } else {
+        $event_time_str .= $date->format("d.m.Y H:i");
+    }
+    $event_time_str .= "</time>";
+
+    return $event_time_str;
+}
+
+function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
+    global $default_timezone;
+    $start_date = new DateTime($start_date_str, $default_timezone);
+    $end_date = new DateTime($end_date_str, $default_timezone);
+
+    if ($start_date->format("zY") == $end_date->format("zY")) {
+        if (date("Y") == $start_date->format("Y")) {
+            $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
+            $event_time_str .= $start_date->format("d.m.");
+            $event_time_str .= '</time>';
+        } else {
+            $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
+            $event_time_str .= $start_date->format("d.m.");
+            $event_time_str .= '</time>';
+        }
+    } else {
+        if ($start_date->format("Y") == $end_date->format("Y")) {
+            if ($start_date->format("mY") == $end_date->format("mY")) {
+                if (date("Y") == $start_date->format("Y")) {
+                    $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= $start_date->format("d.");
+                    $event_time_str .= '</time>';
+                    $event_time_str .= " - ";
+                    $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= $end_date->format("d.m.");
+                    $event_time_str .= '</time>';
+                } else {
+                    $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= $start_date->format("d.");
+                    $event_time_str .= '</time>';
+                    $event_time_str .= " - ";
+                    $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= $end_date->format("d.m.Y");
+                    $event_time_str .= '</time>';
+                }
+            } else if ($start_date->format("Y") == $end_date->format("Y")) {
+
+                if (date("Y") == $start_date->format("Y")) {
+                    $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= $start_date->format("d.m");
+                    $event_time_str .= '</time>';
+                    $event_time_str .= " - ";
+                    $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= $end_date->format("d.m.");
+                    $event_time_str .= '</time>';
+                } else {
+                    $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= $start_date->format("d.m");
+                    $event_time_str .= '</time>';
+                    $event_time_str .= " - ";
+                    $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= $end_date->format("d.m.Y");
+                    $event_time_str .= '</time>';
+                }
+            } else {
+                $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
+                $event_time_str .= $start_date->format("d.m");
+                $event_time_str .= '</time>';
+                $event_time_str .= " - ";
+                $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                $event_time_str .= $end_date->format("d.m.Y");
+                $event_time_str .= '</time>';
+            }
+        } else {
+            $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
+            $event_time_str .= $start_date->format("d.m.Y");
+            $event_time_str .= '</time>';
+            $event_time_str .= " - ";
+            $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+            $event_time_str .= $end_date->format("d.m.Y");
+            $event_time_str .= '</time>';
+
+        }
+    }
+    return $event_time_str;
 }
 
 function kkpweb2016_get_last_edit_string() {

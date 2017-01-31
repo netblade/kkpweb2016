@@ -19,12 +19,7 @@ kkpweb2016_set_last_edit_post($post);
             <h4>Ajankohta</h4>
             <?php
 
-            $event_time_str = "";
-            $event_starts = new DateTime(get_field('event_start'));
-
-            $event_time_str = $event_starts->format("d.m.Y H:i");
-
-            echo $event_time_str;
+            echo kkpweb2016_get_datestring(get_field('meeting_starts'), true);
 
             ?>
             <h4>Paikka</h4>
