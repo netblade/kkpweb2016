@@ -39,6 +39,7 @@ function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
     $end_date = new DateTime($end_date_str, $default_timezone);
 
     if ($start_date->format("zY") == $end_date->format("zY")) {
+
         if (date("Y") == $start_date->format("Y")) {
             $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
             $event_time_str .= $start_date->format("d.m.");
@@ -49,14 +50,16 @@ function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
             $event_time_str .= '</time>';
         }
     } else {
+
         if ($start_date->format("Y") == $end_date->format("Y")) {
             if ($start_date->format("mY") == $end_date->format("mY")) {
+                
                 if (date("Y") == $start_date->format("Y")) {
                     $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
                     $event_time_str .= $start_date->format("d.");
                     $event_time_str .= '</time>';
                     $event_time_str .= " - ";
-                    $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
                     $event_time_str .= $end_date->format("d.m.");
                     $event_time_str .= '</time>';
                 } else {
@@ -64,7 +67,7 @@ function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
                     $event_time_str .= $start_date->format("d.");
                     $event_time_str .= '</time>';
                     $event_time_str .= " - ";
-                    $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
                     $event_time_str .= $end_date->format("d.m.Y");
                     $event_time_str .= '</time>';
                 }
@@ -75,7 +78,7 @@ function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
                     $event_time_str .= $start_date->format("d.m");
                     $event_time_str .= '</time>';
                     $event_time_str .= " - ";
-                    $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
                     $event_time_str .= $end_date->format("d.m.");
                     $event_time_str .= '</time>';
                 } else {
@@ -83,7 +86,7 @@ function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
                     $event_time_str .= $start_date->format("d.m");
                     $event_time_str .= '</time>';
                     $event_time_str .= " - ";
-                    $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                    $event_time_str .= '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
                     $event_time_str .= $end_date->format("d.m.Y");
                     $event_time_str .= '</time>';
                 }
@@ -92,7 +95,7 @@ function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
                 $event_time_str .= $start_date->format("d.m");
                 $event_time_str .= '</time>';
                 $event_time_str .= " - ";
-                $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+                $event_time_str .= '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
                 $event_time_str .= $end_date->format("d.m.Y");
                 $event_time_str .= '</time>';
             }
@@ -101,7 +104,7 @@ function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
             $event_time_str .= $start_date->format("d.m.Y");
             $event_time_str .= '</time>';
             $event_time_str .= " - ";
-            $event_time_str = '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
+            $event_time_str .= '<time class="dtends" datetime="'.$end_date->format("Y-m-d H:iO").'">';
             $event_time_str .= $end_date->format("d.m.Y");
             $event_time_str .= '</time>';
 
