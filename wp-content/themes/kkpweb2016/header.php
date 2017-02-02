@@ -5,6 +5,12 @@ global $navigation_root_post;
 
 $navigation_root_post = $post;
 
+// if wp tries to serve page, but we don't have post, so just redirect to frontpage....
+if ($post == null) {
+    header("Location: /");
+    die();
+}
+
 switch ($post->post_type) {
     case "event":
     case "meeting":
