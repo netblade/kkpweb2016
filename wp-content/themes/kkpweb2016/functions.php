@@ -121,8 +121,13 @@ function kkpweb2016_get_last_edit_string() {
         $date->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
         $to_ret = "Viimeksi muokattu " . date_format($date, 'd.m.Y H:i:s');
-        $user = get_userdata($footer_last_edit_post->post_author);
 
+        $user_id = get_post_meta($footer_last_edit_post->ID, '_edit_last', true );
+        if ($user_id != null && is_numeric($user_id) && intval($user_id) > 0) {
+            $user = get_userdata($user_id);
+        } else {
+            $user = get_userdata($footer_last_edit_post->post_author);
+        }
 
         if ($user != null) {
 
