@@ -16,11 +16,6 @@ kkpweb2016_set_last_edit_post($post);
     </header>
     <div class="row">
         <div class="col-lg-4">
-            <div class="entry-content">
-                <?php the_content(); ?>
-            </div>
-        </div>
-        <div class="col-lg-4">
             <?php
             $phone = get_field('mobile');
             if ($phone != null && trim($phone) != "") {
@@ -62,6 +57,11 @@ kkpweb2016_set_last_edit_post($post);
         }
                 ?>
 
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="entry-content">
+                <?php the_content(); ?>
             </div>
         </div>
     </div>

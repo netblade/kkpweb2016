@@ -45,6 +45,10 @@
       padding: 0 20px 10px; }
       body #wrapper #content h1.entry-title {
         margin: 0; }
+      body #wrapper #content header.entry-header {
+        border-bottom: 1px solid #31736f;
+        margin-bottom: 10px;
+        padding-bottom: 10px; }
       body #wrapper #content .box {
         border: 1px solid #31736f; }
         body #wrapper #content .box .box-header {
@@ -84,6 +88,8 @@
       body #wrapper #footer a {
         font-weight: normal; }
     body #wrapper .more_info_email {
+      font-weight: normal; }
+    body #wrapper .more_info_phone {
       font-weight: normal; }
     body #wrapper .event_row {
       margin-top: 10px; }

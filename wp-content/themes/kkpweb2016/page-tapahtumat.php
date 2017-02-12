@@ -112,7 +112,7 @@ if (array_key_exists("events_year", $_GET) && $_GET["events_year"] != "" && is_n
                         ?>
 
                         <div class="row event_row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-9 col-sm-6">
                                 <a href="<?php echo get_permalink($p->ID); ?>"><?php echo $p->post_title; ?></a>
                                 <br />
                                 <?php
@@ -131,7 +131,7 @@ if (array_key_exists("events_year", $_GET) && $_GET["events_year"] != "" && is_n
                                 echo $event_place_str;
                                 ?>
                             </div>
-                            <div class="col-lg-6 text-nowrap text-right">
+                            <div class="col-lg-3 col-sm-6 text-nowrap text-right">
                                 <?php
                                 echo kkpweb2016_get_datefromtostring(get_field('event_start', $p->ID), get_field('event_end', $p->ID));
                                 ?>
