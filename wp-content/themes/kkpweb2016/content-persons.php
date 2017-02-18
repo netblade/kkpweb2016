@@ -17,27 +17,21 @@ kkpweb2016_set_last_edit_post($post);
     <div class="row">
         <div class="col-lg-4">
             <?php
-            $phone = get_field('mobile');
-            if ($phone != null && trim($phone) != "") {
-                $phone_trim = str_replace(" ", "", str_replace("-", "", trim($phone)));
-                if ($phone_trim != "") {
-                    $phone_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_phone\" href=\"tel:'.$phone_trim.'\" rel=\"nofollow\">'.$phone.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
-                }
+
+            $phone_str = kkpweb2016_get_person_phone($post->ID);
+            if ($phone_str != "") {
             ?>
             <span class="person_contact_info">
                 p. <?php echo $phone_str; ?>
             </span>
             <?php
             }
-            $user = get_field('user');
-            if ($user != null) {
-                $userdata = get_userdata( $user['ID'] );
-                $email = $userdata->user_email;
-                if (trim($email) != "") {
-                    $email_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_email\" href=\"mailto:'.$email.'\" rel=\"nofollow\">'.$email.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
-                    echo '<span class="person_contact_info">@: ' . $email_str . '</span>';
-                }
+
+            $email_str = kkpweb2016_get_person_email($post->ID);
+            if ($email_str != "") {
+                echo '<span class="person_contact_info">@: ' . $email_str . '</span>';
             }
+
             ?>
         </div>
         <div class="col-lg-4">
@@ -50,9 +44,7 @@ kkpweb2016_set_last_edit_post($post);
                     && array_key_exists('thumbnail-height', $person_image['sizes']) && is_numeric($person_image['sizes']['thumbnail-height']) && (int) $person_image['sizes']['thumbnail-height'] <= 150)
                 {
                 ?>
-                <a href="<?php echo $permalink; ?>">
-                    <img src="<?php echo $person_image['sizes']['thumbnail']; ?>" />
-                </a>
+                <img src="<?php echo $person_image['sizes']['thumbnail']; ?>" />
                 <?php
         }
                 ?>

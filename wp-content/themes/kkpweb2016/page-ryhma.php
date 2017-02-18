@@ -78,6 +78,11 @@ get_header();
                         $members = get_field('members');
                         $row_counter = -1;
                         if (is_array($members) && count($members) > 0) {
+                            $members_person_view = get_field('members_person_view');
+                            if (trim($members_person_view) == "") {
+                                $members_person_view = "info";
+                            }
+
                             echo "<h4>Henkil&ouml;t</h4>";
                             foreach($members as $row) {
                                 if (!is_array($row)) {
@@ -119,6 +124,10 @@ get_header();
                                     <h3>
                                         <?php echo $row['title']; ?>
                                     </h3>
+                                    <?php
+                                    if (strstr($members_person_view, "image"))
+                                    {
+                                    ?>
                                     <div class="members_image">
                                         <?php
                                             $person_image = get_field('image', $person->ID);
@@ -135,7 +144,27 @@ get_header();
                                             }
                                         ?>
                                     </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <h4><a href="<?php echo $permalink; ?>"><?php echo $person->post_title; ?></a></h4>
+                                    <?php
+                                    if (strstr($members_person_view,"info")) {
+                                        $phone_str = kkpweb2016_get_person_phone($person->ID);
+                                        if ($phone_str != "") {
+                                    ?>
+                                    <span class="person_contact_info">
+                                        p. <?php echo $phone_str; ?>
+                                    </span>
+                                    <?php
+                                        }
+
+                                        $email_str = kkpweb2016_get_person_email($person->ID);
+                                        if ($email_str != "") {
+                                            echo '<span class="person_contact_info">@: ' . $email_str . '</span>';
+                                        }
+                                    }
+                                    ?>
                                 </div>
                                 <?php
                                         } elseif ($other_name != "") {

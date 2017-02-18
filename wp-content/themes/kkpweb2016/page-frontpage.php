@@ -55,7 +55,7 @@ global $kkpweb2016_template_options;
                                 }
 
                                 if (!is_null($image) && array_key_exists('url', $image) ) {
-                                    $image_content = $link_str.'<img src="'.$image['url'].'" alt="" />' . $link_end_str . "\n";
+                                    $image_content = $link_str.'<span class="carousel_item_img"><img src="'.$image['url'].'" alt="" /></span>' . $link_end_str . "\n";
                                 } else {
                                     continue;
                                 }
@@ -162,7 +162,7 @@ global $kkpweb2016_template_options;
                                     $event_place_str = $label;
                                 }
                                 echo $event_place_str;
-?></div>
+                            ?></div>
                             <div class="event_dialog">
                                 <div class="box">
                                     <div class="box-header">
@@ -181,7 +181,6 @@ global $kkpweb2016_template_options;
                                             <?php
                                                 $additional_details = "";
 
-                                                $email = "";
                                                 $email_str = "";
 
                                                 $person = get_field('info_person_kipinat', $p->ID);
@@ -190,29 +189,24 @@ global $kkpweb2016_template_options;
                                                 {
                                                     $person = get_field('info_person_other', $p->ID);
                                                 }
+
                                                 if (trim($person) != "")
                                                 {
                                                     $person_post = get_post($person);
+
+                                                    $email_str = kkpweb2016_get_person_email($person);
+
                                                     if ($person_post != null) {
                                                         $additional_details = $person_post->post_title;
-                                                        $phone = get_field('mobile', $person);
-                                                        if ($phone != null && trim($phone) != "") {
-                                                            $phone_trim = str_replace(" ", "", str_replace("-", "", trim($phone)));
-                                                            if ($phone_trim != "") {
-                                                                $phone_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_phone\" href=\"tel:'.$phone_trim.'\" rel=\"nofollow\">'.$phone.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
-                                                                $additional_details .= " p. ". $phone_str;
-                                                            }
-                                                        }
-                                                        $user = get_field('user', $person);
-                                                        if ($user != null) {
-                                                            $userdata = get_userdata( $user['ID'] );
-                                                            $email = $userdata->user_email;
+
+                                                        $phone_str = kkpweb2016_get_person_phone($person);
+                                                        if (trim($phone_str) != "") {
+                                                            $additional_details .= "<br />p. ". $phone_str;
                                                         }
                                                     }
                                                 }
 
-                                                if (trim($email) != "") {
-                                                    $email_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_email\" href=\"mailto:'.$email.'\" rel=\"nofollow\">'.$email.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
+                                                if (trim($email_str) != "") {
                                                     $additional_details .= ' @: ' . $email_str;
                                                 }
 
@@ -309,6 +303,9 @@ global $kkpweb2016_template_options;
 
                     </div>
                 </div>
+                <br />
+                <br />
+                <?php echo do_shortcode('[instagram-feed id="3055900978" showheader="false"]'); ?>
             </div>
             <div class="col-lg-6">
                 <div class="box">
@@ -355,19 +352,14 @@ global $kkpweb2016_template_options;
                                 ?>
                     </div>
                 </div>
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-lg-6">
-                <?php echo do_shortcode('[instagram-feed id="3055900978" showheader="false"]'); ?>
-            </div>
-            <div class="col-lg-6">
+                <br />
+                <br />
                 <div class="fb-page" data-href="https://www.facebook.com/kilonkipinat" data-tabs="timeline" data-width="540" data-height="740" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
                     <blockquote cite="https://www.facebook.com/kilonkipinat" class="fb-xfbml-parse-ignore">
                         <a href="https://www.facebook.com/kilonkipinat">Kilon Kipinät</a>
                     </blockquote>
                 </div>
+                
             </div>
         </div>
         <br />

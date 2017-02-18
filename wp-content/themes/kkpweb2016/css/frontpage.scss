@@ -3,6 +3,14 @@
 	.carousel-indicators {
 		bottom: 0;
 	}
+
+    .carousel-inner {
+        .carousel_item_img {
+            max-height:282px;
+            overflow: hidden;
+            display: inline-block;
+        }
+    }
 			
 	.carousel-caption {
 		width: 100%;

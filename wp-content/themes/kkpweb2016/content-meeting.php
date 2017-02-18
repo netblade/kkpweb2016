@@ -44,7 +44,6 @@ kkpweb2016_set_last_edit_post($post);
 
             $additional_details = "";
 
-            $email = "";
             $email_str = "";
 
             $person = get_field('info_person_kipinat');
@@ -53,31 +52,25 @@ kkpweb2016_set_last_edit_post($post);
             {
                 $person = get_field('info_person_other');
             }
+
             if (trim($person) != "")
             {
                 $person_post = get_post($person);
+
+                $email_str = kkpweb2016_get_person_email($person);
+
                 if ($person_post != null) {
 
                     $additional_details = '<a href="'.get_permalink($person).'">'.$person_post->post_title."</a>";
 
-                    $phone = get_field('mobile', $person);
-                    if ($phone != null && trim($phone) != "") {
-                        $phone_trim = str_replace(" ", "", str_replace("-", "", trim($phone)));
-                        if ($phone_trim != "") {
-                            $phone_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_phone\" href=\"tel:'.$phone_trim.'\" rel=\"nofollow\">'.$phone.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
-                            $additional_details .= "<br />p. ". $phone_str;
-                        }
-                    }
-                    $user = get_field('user', $person);
-                    if ($user != null) {
-                        $userdata = get_userdata( $user['ID'] );
-                        $email = $userdata->user_email;
+                    $phone_str = kkpweb2016_get_person_phone($person);
+                    if (trim($phone_str) != "") {
+                        $additional_details .= "<br />p. ". $phone_str;
                     }
                 }
             }
 
-            if (trim($email) != "") {
-                $email_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_email\" href=\"mailto:'.$email.'\" rel=\"nofollow\">'.$email.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
+            if (trim($email_str) != "") {
                 $additional_details .= '<br />@: ' . $email_str;
             }
 

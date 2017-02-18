@@ -41,6 +41,9 @@
         body #wrapper #header_top #socialLinks div {
           display: inline-block;
           margin-bottom: 5px; }
+          body #wrapper #header_top #socialLinks div#loginLink {
+            padding-top: 2px;
+            margin-right: 3px; }
     body #wrapper #content {
       padding: 0 20px 10px; }
       body #wrapper #content h1.entry-title {
@@ -179,6 +182,10 @@
     max-width: 500px; }
     body #carousel-frontpage .carousel-indicators {
       bottom: 0; }
+    body #carousel-frontpage .carousel-inner .carousel_item_img {
+      max-height: 282px;
+      overflow: hidden;
+      display: inline-block; }
     body #carousel-frontpage .carousel-caption {
       width: 100%;
       left: 0;

@@ -53,7 +53,7 @@ function kkpweb2016_get_datefromtostring($start_date_str, $end_date_str) {
 
         if ($start_date->format("Y") == $end_date->format("Y")) {
             if ($start_date->format("mY") == $end_date->format("mY")) {
-                
+
                 if (date("Y") == $start_date->format("Y")) {
                     $event_time_str = '<time class="dtstart" datetime="'.$start_date->format("Y-m-d H:iO").'">';
                     $event_time_str .= $start_date->format("d.");
@@ -203,6 +203,64 @@ function kkpweb2016_get_active_parent_tree_for_post($tmp_post, $counter = 0) {
 
 }
 
+
+function kkpweb2016_get_person_email($person_post_id) {
+    $email = "";
+
+    $additional_email = trim(get_field('additional_email', $person_post_id));
+    if ($additional_email == "-") {
+        return "";
+    } else if ($additional_email != "") {
+        $email = $additional_email;
+    } else {
+        $user = get_field('user', $person_post_id);
+        if ($user != null) {
+            $hide_user = get_field('hide_contact_info', 'user_'.$user['ID']);
+            if (!$hide_user) {
+                $userdata = get_userdata( $user['ID'] );
+                $email = $userdata->user_email;
+            }
+        }
+    }
+
+    if ($email != "") {
+        $email_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_email\" href=\"mailto:'.$email.'\" rel=\"nofollow\">'.$email.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
+
+        return $email_str;
+    }
+    return "";
+}
+
+function kkpweb2016_get_person_phone($person_post_id) {
+
+    $phone = "";
+
+    $additional_phone = trim(get_field('mobile', $person_post_id));
+    if ($additional_phone == "-") {
+        return "";
+    } else if ($additional_phone != "") {
+        $phone = $additional_phone;
+    } else {
+        $user = get_field('user', $person_post_id);
+        if ($user != null) {
+            $hide_user = get_field('hide_contact_info', 'user_'.$user['ID']);
+
+            if (!$hide_user) {
+                $phone = trim(get_user_meta($user['ID'], 'phone1', true));
+            }
+        }
+    }
+
+    if ($phone != null && trim($phone) != "") {
+        $phone_trim = str_replace(" ", "", str_replace("-", "", trim($phone)));
+        if ($phone_trim != "") {
+            $phone_str = '<script type="text/javascript">document.write("'.str_rot13('<a class=\"more_info_phone\" href=\"tel:'.$phone_trim.'\" rel=\"nofollow\">'.$phone.'</a>').'".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
+            return $phone_str;
+        }
+    }
+
+    return "";
+}
 
 
 function kkpweb2016_content_banner( $atts ) {

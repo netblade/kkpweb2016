@@ -60,6 +60,10 @@ a {
             div {
                 display: inline-block;
                 margin-bottom: 5px;
+                &#loginLink {
+                    padding-top: 2px;
+                    margin-right: 3px;
+                }
             }
 		}
 	}
@@ -77,8 +81,6 @@ a {
             padding-bottom: 10px;
         }
 
-		
-		
 		.box {
 			border: 1px solid #31736f;
 			.box-header {

@@ -54,17 +54,13 @@ switch ($post->post_type) {
     <meta name="msapplication-TileColor" content="#006F00">
     <meta name="msapplication-TileImage" content="/wp-content/themes/kkpweb2016/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#006F00">
-
     <title><?php echo get_the_title(); ?></title>
 
-
     <?php wp_head(); ?>
-
     <!-- Bootstrap core CSS -->
     <link href="/wp-content/themes/kkpweb2016/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="/wp-content/themes/kkpweb2016/font-awesome/css/font-awesome.min.css">
     <link href="/wp-content/themes/kkpweb2016/style.min.css" rel="stylesheet" />
-
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -72,24 +68,21 @@ switch ($post->post_type) {
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body <?php body_class(); ?>>
-
 
     <div id="fb-root"></div>
     <script>
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
     <div id="wrapper" class="container">
         <div class="header">
             <div id="header_top" class="row">
-                
+
                 <div class="col-lg-8 col-md-4 col-sm-4" id="header_logo_container">
                     <a href="/">
                         <img src="/wp-content/themes/kkpweb2016/img/header_logo.png" />
@@ -97,25 +90,18 @@ switch ($post->post_type) {
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-4 text-right" style="float:right; display:inline-block;" id="header_links">
 
-                    
                     <?php
-
                     for ($i = 0; $i < 3; $i++) {
-
                         $link_title = $kkpweb2016_template_options['kkpweb2016_settings_template_header_link_'.$i.'_title'];
-
                         if ($link_title != null && strlen($link_title) > 0) {
                             $link_page = get_post($kkpweb2016_template_options['kkpweb2016_settings_template_header_link_'.$i.'_page']);
-
                             if ($link_page != null) {
                     ?>
-                                        <a href="<?php echo get_permalink($link_page->ID); ?>"><?php echo $link_title; ?></a>
+                    <a href="<?php echo get_permalink($link_page->ID); ?>"><?php echo $link_title; ?></a>
                     <?php
                             }
                         }
-
                     }
-
                     ?>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4">
@@ -140,9 +126,12 @@ switch ($post->post_type) {
                                 <img src="/wp-content/themes/kkpweb2016/img/Instagram2016_col-128px.png" height="22" width="22" />
                             </a>
                         </div>
+                        <div id="loginLink">
+                            <a href="/wp-admin"><i class="fa fa-sign-in"></i></a>
+                        </div>
                     </div>
                 </div>
-                
+
             </div>
             <!-- Static navbar -->
             <nav id="header_top_navi" class="navbar navbar-default">
