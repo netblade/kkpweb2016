@@ -80,15 +80,17 @@ kkpweb2016_set_last_edit_post($post);
             }
 
             if (trim($additional_details) == "") {
-                $additional_details = get_field('info_manual_text');
+                $additional_details = trim(get_field('info_manual_text'));
             }
 
-            if (trim($additional_details) != "") {
+            $additional_details_link = kkpweb2016_get_extra_info_link($post->ID);
+
+            if (trim($additional_details) != "" || $additional_details_link != "") {
             ?>
             <h4>Lis&auml;tiedot</h4>
-            <?php echo $additional_details; ?>
-            <?php
-
+            <?php 
+            echo $additional_details; 
+            echo $additional_details_link; 
             }
             ?>
         </div>

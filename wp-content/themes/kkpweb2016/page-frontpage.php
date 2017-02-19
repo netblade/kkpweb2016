@@ -214,11 +214,16 @@ global $kkpweb2016_template_options;
                                                     $additional_details = get_field('info_manual_text', $p->ID);
                                                 }
 
-                                                if (trim($additional_details) != "") {
+                                                $additional_details_link = kkpweb2016_get_extra_info_link($p->ID);
+
+                                                if (trim($additional_details) != "" || $additional_details_link != "") {
                                             ?>
                                             <dt>Lisätiedot</dt>
                                             <dd>
-                                                <?php echo $additional_details; ?>
+                                                <?php 
+                                                echo $additional_details; 
+                                                echo $additional_details_link; 
+                                                ?>
                                             </dd>
                                             <?php
                                                 }

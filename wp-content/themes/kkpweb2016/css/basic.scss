@@ -1,6 +1,6 @@
 ﻿
 h1, h2, h3, h4, h5, h6 {
-color: #31736f;
+    color: #31736f;
 }
 
 a {
@@ -11,6 +11,9 @@ a {
 		color: #31736f;
 		text-decoration: underline;
 	}
+    &.additional_details_link {
+        display: inline-block;
+    }
 }
 
 #main {

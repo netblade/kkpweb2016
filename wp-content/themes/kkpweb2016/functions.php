@@ -231,6 +231,30 @@ function kkpweb2016_get_person_email($person_post_id) {
     return "";
 }
 
+function kkpweb2016_get_extra_info_link($post_id) {
+    $url = trim(get_field('info_link_url', $post_id));
+    if ($url == "") {
+        $url = get_field('info_link_internal_url', $post_id);
+        if (trim($url) == "") {
+            return;
+        }
+    }
+    $title = trim(get_field('info_link_title', $post_id));
+    if ($title == "") {
+        return;
+    }
+
+    $target = "";
+
+    if (!strstr($url, 'kilonkipinat.fi')) {
+        $target = ' target="_blank"';
+    }
+
+    $toret = '<a class="additional_details_link" href="'.$url.'"'.$target.'>'.$title.'</a>';
+
+    return $toret;
+}
+
 function kkpweb2016_get_person_phone($person_post_id) {
 
     $phone = "";

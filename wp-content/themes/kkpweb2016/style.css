@@ -9,6 +9,8 @@
     body a:hover {
       color: #31736f;
       text-decoration: underline; }
+    body a.additional_details_link {
+      display: inline-block; }
   body #main a {
     text-decoration: underline; }
   body #wrapper {
