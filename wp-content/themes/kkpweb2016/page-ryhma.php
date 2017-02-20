@@ -120,7 +120,7 @@ get_header();
                                             $row_counter++;
                                             $permalink = get_permalink($person->ID);
                                 ?>
-                                <div class="col-lg-3 members_member">
+                                <div class="col-lg-6 members_member">
                                     <h3>
                                         <?php echo $row['title']; ?>
                                     </h3>
@@ -169,15 +169,20 @@ get_header();
                                 <?php
                                         } elseif ($other_name != "") {
                                 ?>
-                                <div class="col-lg-3 members_member">
+                                <div class="col-lg-6 members_member">
                                     <h3>
                                         <?php echo $row['title']; ?>
                                     </h3>
+                                    <?php
+                                    if (strstr($members_person_view, "image"))
+                                    {
+                                        ?>
                                     <div class="members_image"></div>
+                                    <?php
+                                    }
+                                    ?>
                                     <h4>
-                                        <a href="<?php echo $permalink; ?>">
-                                            <?php echo $other_name ?>
-                                        </a>
+                                        <?php echo $other_name ?>
                                     </h4>
                                 </div>
                                 <?php
