@@ -35,9 +35,8 @@ switch ($post->post_type) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="author" content="Kilon Kipinät ry" />
-    <meta property="author" content="Kilon Kipinät ry" />
-    <meta property="article:author" content="Kilon Kipinät ry" />
+    <meta property="article:publisher" content="https://www.facebook.com/kilonkipinat/" />
+    <meta property="article:author" content="https://www.facebook.com/kilonkipinat/" />
     <link rel="apple-touch-icon" sizes="57x57" href="/wp-content/themes/kkpweb2016/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/wp-content/themes/kkpweb2016/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/wp-content/themes/kkpweb2016/favicon/apple-icon-72x72.png">
