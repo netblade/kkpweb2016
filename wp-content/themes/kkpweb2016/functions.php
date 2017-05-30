@@ -312,6 +312,28 @@ function kkpweb2016_get_template_part($post) {
     }
 }
 
+
+add_action('generate_rewrite_rules', 'kkpweb2016_add_rewrites');
+
+function kkpweb2016_add_rewrites() {
+
+    global $wp_rewrite;
+/*
+    $theme_name = next(explode('/themes/', get_stylesheet_directory()));
+
+    $new_non_wp_rules = array(
+        'css/(.*)'       => 'wp-content/themes/'. $theme_name . '/css/$1',
+        'js/(.*)'        => 'wp-content/themes/'. $theme_name . '/js/$1'
+    );
+    $wp_rewrite->non_wp_rules += $new_non_wp_rules;
+*/
+    $new_wp_rules = array(
+        'tapahtumat.ics'    => 'index.php?pagename=tapahtumat-ical',
+        'kokoukset.ics'    => 'index.php?pagename=kokoukset-ical'
+    );
+    $wp_rewrite->rules = $new_wp_rules + $wp_rewrite->rules;
+}
+
 if (!class_exists("KKPWeb2016SettingsPage")) {
     require_once( get_template_directory() . '/functions_settings.php');
 }

@@ -7,6 +7,7 @@ get_header();
 global $kkpweb2016_template_options;
 
 ?>
+
 <div class="content" id="content">
     <main id="main" class="site-main" role="main">
         <div class="row">
