@@ -2,7 +2,7 @@
 /*
 Template Name: Tapahtumat ical
  */
-//header('Content-Type: text/calendar');
+header('Content-Type: text/calendar');
 require_once("zapcallib/zapcallib.php");
 $icalobj = new ZCiCal();
 
