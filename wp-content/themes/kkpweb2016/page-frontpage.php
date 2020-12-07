@@ -311,7 +311,7 @@ global $kkpweb2016_template_options;
                 </div>
                 <br />
                 <br />
-                <?php echo do_shortcode('[instagram-feed id="3055900978" showheader="false"]'); ?>
+                <?php echo do_shortcode('[instagram-feed id="17841403029361987" showheader="false"]'); ?>
             </div>
             <div class="col-lg-6">
                 <div class="box">
